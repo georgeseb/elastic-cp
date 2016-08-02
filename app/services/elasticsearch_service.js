@@ -31,11 +31,19 @@ app.factory("elasticsearchService", ["$http", function($http){
 		return $http.post(endpoint, data);
 	};
 
+	var getStats = function(){
+
+		var endpoint = elasticsearchHost + "/_stats";
+
+		return $http.get(endpoint);
+	}
+
 
 
 	return {
 		host: elasticsearchHost,
 		sendAnalyzeRequest: sendAnalyzeRequest,
-		createTempIndex: createTempIndex
+		createTempIndex: createTempIndex,
+		getStats: getStats
 	};
 }]);
