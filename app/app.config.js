@@ -8,5 +8,9 @@ app.config(["$routeProvider", function($routeProvider){
 			templateUrl: "../views/analysis_view.html",
 			controller: "analysisController"
 		}).
+		when("/maintenance", {
+			templateUrl: "../views/maintenance_view.html",
+			controller: "maintenanceController"
+		}).
 		otherwise("/start")
 }])
