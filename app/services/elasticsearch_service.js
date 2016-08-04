@@ -38,12 +38,30 @@ app.factory("elasticsearchService", ["$http", function($http){
 		return $http.get(endpoint);
 	}
 
+	var genericRequest = function(method, endpoint, body){
+
+		if (method === undefined || endpoint === undefined) {
+			return;
+		}
+
+		var config = {
+			method: method,
+			url: elasticsearchHost + endpoint
+		};
+
+		if (body !== undefined){
+			config.data = body;
+		}
+
+		return $http(config);
+	}
 
 
 	return {
 		host: elasticsearchHost,
 		sendAnalyzeRequest: sendAnalyzeRequest,
 		createTempIndex: createTempIndex,
-		getStats: getStats
+		getStats: getStats,
+		genericRequest: genericRequest
 	};
 }]);
