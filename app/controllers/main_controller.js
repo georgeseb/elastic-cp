@@ -1,4 +1,4 @@
-app.controller("mainController", ["$scope", "$location", "elasticsearchService", function($scope, $location, elasticsearchService){
+app.controller("mainController", ["$scope", "$location", "$window", "elasticsearchService", function($scope, $location, $window, elasticsearchService){
 
 	$scope.stats;
 
@@ -7,6 +7,8 @@ app.controller("mainController", ["$scope", "$location", "elasticsearchService",
 	}
 
 	$scope.getStats();
+
+	
 
 	//http://stackoverflow.com/questions/14201753/angular-js-how-when-to-use-ng-click-to-call-a-route
 	$scope.redirect = function(endpoint){

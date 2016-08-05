@@ -2,9 +2,12 @@ app.factory("elasticsearchService", ["$http", function($http){
 
 	var elasticsearchHost = "http://localhost:9200";
 
-	var createTempIndex = function() {
+	var createTempIndex = function(indexName) {
 
-		var indexName = "elasticmapper-" + (new Date()).getTime();
+		if (indexName === undefined) {
+			indexName = "elasticmapper-" + (new Date()).getTime();
+		} 
+		
 		var endpoint = elasticsearchHost + "/" + indexName;
 
 		var data = {
@@ -16,8 +19,7 @@ app.factory("elasticsearchService", ["$http", function($http){
 		    }
 		}
 
-		$http.post(endpoint, data);
-		return indexName;
+		return $http.post(endpoint, data);
 	}
 
 	var sendAnalyzeRequest = function(data, index){
