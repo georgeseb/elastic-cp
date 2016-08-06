@@ -24,10 +24,10 @@
 						<div class="col-lg-1 col-md-1 col-sm-1">{{parent.stats.indices[key].primaries.docs.deleted}}</div>
 						<div class="col-lg-2 col-md-2 col-sm-2">{{getDate(value.settings.index.creation_date)}}</div>
 						<div class="col-lg-2 col-md-2 col-sm-2">
-							<span title="Open" style="cursor: pointer" ng-style="value.state == 'open' ? {color:'green'} : ''" class="glyphicon glyphicon-ok-circle" ng-click="openIndex(key)"></span> 
-							<span title="Close" style="cursor: pointer" ng-style="value.state == 'close' ? {color:'red'} : ''" class="glyphicon glyphicon-ban-circle" ng-click="closeIndex(key)"></span> 
-							<span title="Delete" style="cursor: pointer" class="glyphicon glyphicon-remove-circle" ng-click="deleteIndex(key)"></span>
-							<span title="Edit" style="cursor: pointer" class="glyphicon glyphicon-edit" ng-click=""></span>
+							<span title="Open" style="cursor: pointer" ng-style="value.state == 'open' ? {color:'green'} : ''" class="glyphicon glyphicon-ok-circle" ng-click="openIndex(key)"></span> &nbsp
+							<span title="Close" style="cursor: pointer" ng-style="value.state == 'close' ? {color:'red'} : ''" class="glyphicon glyphicon-ban-circle" ng-click="closeIndex(key)"></span>  &nbsp
+							<span title="Delete" style="cursor: pointer" class="glyphicon glyphicon-remove-circle" ng-click="deleteIndex(key)"></span> &nbsp
+							<span title="Edit" style="cursor: pointer" class="glyphicon glyphicon-edit" ng-click=""></span> &nbsp
 							<span title="Select" class="glyphicon glyphicon-info-sign" style="cursor: pointer" ng-click="selectSideView(parent.stats.indices[key])"></span>
 						</div>
 					</div>
@@ -36,7 +36,7 @@
 		</div>
 
 		<div class="col-lg-4 col-md-4 col-sm-4">
-			<pre>{{selectedSideView | json}}</pre>
+			<pre>{{selectedSideView == undefined ? 'Select an open index to see more information.' :  selectedSideView| json}}</pre>
 		</div>
 	</div>
 	

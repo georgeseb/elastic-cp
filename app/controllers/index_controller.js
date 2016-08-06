@@ -1,4 +1,4 @@
-app.controller("maintenanceController", ["$scope", "elasticsearchService", function($scope, elasticsearchService){
+app.controller("indexController", ["$scope", "elasticsearchService", function($scope, elasticsearchService){
 
 	$scope.parent = $scope.$parent;
 	$scope.selectedSideView;

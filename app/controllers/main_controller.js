@@ -2,6 +2,7 @@ app.controller("mainController", ["$scope", "$location", "$window", "elasticsear
 
 	$scope.stats;
 	$scope.clusterState;
+	$scope.parent = $scope.$parent;
 
 	$scope.updateStats = function(timeoutStats, timeoutClusterState){
 
@@ -18,9 +19,15 @@ app.controller("mainController", ["$scope", "$location", "$window", "elasticsear
 	$scope.updateStats();	
 
 	//http://stackoverflow.com/questions/14201753/angular-js-how-when-to-use-ng-click-to-call-a-route
-	$scope.redirect = function(endpoint){
-		$location.path(endpoint);
-	}	
+	var tabIndexToRoute = {
+		0: "/start",
+		1: "/analysis",
+		2: "/cluster",
+		3: "/index"
+	};
 
+	$scope.$watch(() => {return $scope.activeTab;}, (newVal, oldVal) => {
+		$location.path(tabIndexToRoute[newVal]);
+	})
 
 }]);
