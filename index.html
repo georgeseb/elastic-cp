@@ -30,20 +30,24 @@
 
 	<body class="padding2" ng-app="elasticMapper" ng-controller="mainController">
 
-		<uib-tabset active="active">
-			<uib-tab ng-click="redirect('/start')" index="0" heading="Start"></uib-tab>
-			<uib-tab ng-click="redirect('/analysis')" index="1" heading="Analysis"></uib-tab>
-			<uib-tab ng-click="redirect('/fields')" index="2" heading="Fields"></uib-tab>
-			<uib-tab ng-click="redirect('/templates')" index="3" heading="Templates"></uib-tab>
-			<uib-tab ng-click="redirect('/maintenance')" index="4" heading="Maintenance"></uib-tab>
-		</uib-tabset>
+		<div class="row">
+			<div class="col-lg-8 col-md-8 col-sm-8">
+				<uib-tabset active="active">
+					<uib-tab ng-click="redirect('/start')" index="0" heading="Start"></uib-tab>
+					<uib-tab ng-click="redirect('/analysis')" index="1" heading="Analysis"></uib-tab>
+					<uib-tab ng-click="redirect('/fields')" index="2" heading="Fields"></uib-tab>
+					<uib-tab ng-click="redirect('/templates')" index="3" heading="Templates"></uib-tab>
+					<uib-tab ng-click="redirect('/maintenance')" index="4" heading="Maintenance"></uib-tab>
+				</uib-tabset>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-2">
+				<button ng-click="getStats()" class="btn btn-warning glyphicon glyphicon-refresh"/>
+			</div>
+		</div>
 
 		<div class="row">
-			<div class="col-lg-8 col-md-8 col-sm-12">
+			<div class="col-lg-8 col-md-8 col-sm-8">
 				<div ng-view></div>
-			</div>
-			<div class="col-lg-4 col-md-4 col-sm-12">
-				
 			</div>
 		</div>
 		

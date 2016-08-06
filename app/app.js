@@ -9,7 +9,7 @@ app.run(["$window", "elasticsearchService", function($window, elasticsearchServi
 		.then((resp) => {}, (err) => {
 			if (err.status == 404) {
 				elasticsearchService
-					.createTempIndex(elasticMapperIndex)
+					.createTempIndex(elasticMapperIndex);
 			}
 		});
 
