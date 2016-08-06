@@ -1,22 +1,43 @@
 <div class="padding1">
-	<ul class="list-group">
-		<li class="list-group-item">
-			<div class="row">
-				<div class="col-lg-1 col-md-1 col-sm-1"></div>
-				<div class="col-lg-5 col-md-5 col-sm-5"><strong>Index Name</strong></div>
-				<div class="col-lg-2 col-md-2 col-sm-2"><strong>Count</strong></div>
-				<div class="col-lg-2 col-md-2 col-sm-2"><strong>Deleted</strong></div>
-				<div class="col-lg-1 col-md-1 col-sm-1"><strong>Delete</strong></div>
-			</div>
-		</li>
-		<li class="list-group-item" ng-repeat="(key, value) in parent.stats.indices">
-			<div class="row">
-				<div class="col-lg-1 col-md-1 col-sm-1">{{$index + 1}}</div>
-				<div class="col-lg-5 col-md-5 col-sm-5">{{key}}</div>
-				<div class="col-lg-2 col-md-2 col-sm-2">{{value.primaries.docs.count}}</div>
-				<div class="col-lg-2 col-md-2 col-sm-2">{{value.primaries.docs.deleted}}</div>
-				<div class="col-lg-1 col-md-1 col-sm-1"><span class="glyphicon glyphicon-remove" ng-click="deleteIndex(key)"></span></div>
-			</div>
-		</li>
-	</ul>
+	<div class="row">
+		<div class="col-lg-8 col-md-8 col-sm-8">
+			<ul class="list-group">
+				<li class="list-group-item">
+					<div class="row">
+						<div class="col-lg-1 col-md-1 col-sm-1"></div>
+						<div class="col-lg-2 col-md-2 col-sm-2"><strong>Index Name</strong></div>
+						<div class="col-lg-1 col-md-1 col-sm-1"><strong>Shards</strong></div>
+						<div class="col-lg-1 col-md-1 col-sm-1"><strong>Replicas</strong></div>
+						<div class="col-lg-1 col-md-1 col-sm-1"><strong>Docs</strong></div>
+						<div class="col-lg-1 col-md-1 col-sm-1"><strong>Deleted</strong></div>
+						<div class="col-lg-2 col-md-2 col-sm-2"><strong>Created Date</strong></div>
+						<div class="col-lg-2 col-md-2 col-sm-2"><strong>Operations</strong></div>
+					</div>
+				</li>
+				<li class="list-group-item" ng-repeat="(key, value) in parent.clusterState.metadata.indices">
+					<div class="row">
+						<div class="col-lg-1 col-md-1 col-sm-1">{{$index + 1}}</div>
+						<div class="col-lg-2 col-md-2 col-sm-2">{{key}}</div>
+						<div class="col-lg-1 col-md-1 col-sm-1">{{value.settings.index.number_of_shards}}</div>
+						<div class="col-lg-1 col-md-1 col-sm-1">{{value.settings.index.number_of_replicas}}</div>
+						<div class="col-lg-1 col-md-1 col-sm-1">{{parent.stats.indices[key].primaries.docs.count}}</div>
+						<div class="col-lg-1 col-md-1 col-sm-1">{{parent.stats.indices[key].primaries.docs.deleted}}</div>
+						<div class="col-lg-2 col-md-2 col-sm-2">{{getDate(value.settings.index.creation_date)}}</div>
+						<div class="col-lg-2 col-md-2 col-sm-2">
+							<span title="Open" style="cursor: pointer" ng-style="value.state == 'open' ? {color:'green'} : ''" class="glyphicon glyphicon-ok-circle" ng-click="openIndex(key)"></span> 
+							<span title="Close" style="cursor: pointer" ng-style="value.state == 'close' ? {color:'red'} : ''" class="glyphicon glyphicon-ban-circle" ng-click="closeIndex(key)"></span> 
+							<span title="Delete" style="cursor: pointer" class="glyphicon glyphicon-remove-circle" ng-click="deleteIndex(key)"></span>
+							<span title="Edit" style="cursor: pointer" class="glyphicon glyphicon-edit" ng-click=""></span>
+							<span title="Select" class="glyphicon glyphicon-info-sign" style="cursor: pointer" ng-click="selectSideView(parent.stats.indices[key])"></span>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<div class="col-lg-4 col-md-4 col-sm-4">
+			<pre>{{selectedSideView | json}}</pre>
+		</div>
+	</div>
+	
 </div>

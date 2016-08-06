@@ -8,6 +8,14 @@ app.config(["$routeProvider", function($routeProvider){
 			templateUrl: "../views/analysis_view.html",
 			controller: "analysisController"
 		}).
+		when("/fields", {
+			template: "",
+			controller: "mainController"
+		}).
+		when("/templates", {
+			template: "",
+			controller: "mainController"
+		}).
 		when("/maintenance", {
 			templateUrl: "../views/maintenance_view.html",
 			controller: "maintenanceController"
