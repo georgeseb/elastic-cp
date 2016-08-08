@@ -1,11 +1,6 @@
 app.controller("indexController", ["$scope", "elasticsearchService", function($scope, elasticsearchService){
 
 	$scope.parent = $scope.$parent;
-	$scope.selectedSideView;
-
-	$scope.selectSideView = function(view){
-		$scope.selectedSideView = view;
-	}
 
 	$scope.deleteIndex = function(indexName){
 		elasticsearchService.genericRequest("DELETE", "/" + indexName)

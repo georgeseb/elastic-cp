@@ -1,11 +1,11 @@
 <div class="padding1">
 	<div class="row">
-		<div class="col-lg-8 col-md-8 col-sm-8">
+		<div class="col-lg-12 col-md-12 col-sm-12">
 			<ul class="list-group">
 				<li class="list-group-item">
 					<div class="row">
 						<div class="col-lg-1 col-md-1 col-sm-1"></div>
-						<div class="col-lg-2 col-md-2 col-sm-2"><strong>Index Name</strong></div>
+						<div class="col-lg-3 col-md-3 col-sm-3"><strong>Index Name</strong></div>
 						<div class="col-lg-1 col-md-1 col-sm-1"><strong>Shards</strong></div>
 						<div class="col-lg-1 col-md-1 col-sm-1"><strong>Replicas</strong></div>
 						<div class="col-lg-1 col-md-1 col-sm-1"><strong>Docs</strong></div>
@@ -17,7 +17,7 @@
 				<li class="list-group-item" ng-repeat="(key, value) in parent.clusterState.metadata.indices">
 					<div class="row">
 						<div class="col-lg-1 col-md-1 col-sm-1">{{$index + 1}}</div>
-						<div class="col-lg-2 col-md-2 col-sm-2">{{key}}</div>
+						<div class="col-lg-3 col-md-3 col-sm-3">{{key}}</div>
 						<div class="col-lg-1 col-md-1 col-sm-1">{{value.settings.index.number_of_shards}}</div>
 						<div class="col-lg-1 col-md-1 col-sm-1">{{value.settings.index.number_of_replicas}}</div>
 						<div class="col-lg-1 col-md-1 col-sm-1">{{parent.stats.indices[key].primaries.docs.count}}</div>
@@ -27,16 +27,17 @@
 							<span title="Open" style="cursor: pointer" ng-style="value.state == 'open' ? {color:'green'} : ''" class="glyphicon glyphicon-ok-circle" ng-click="openIndex(key)"></span> &nbsp
 							<span title="Close" style="cursor: pointer" ng-style="value.state == 'close' ? {color:'red'} : ''" class="glyphicon glyphicon-ban-circle" ng-click="closeIndex(key)"></span>  &nbsp
 							<span title="Delete" style="cursor: pointer" class="glyphicon glyphicon-remove-circle" ng-click="deleteIndex(key)"></span> &nbsp
-							<span title="Edit" style="cursor: pointer" class="glyphicon glyphicon-edit" ng-click=""></span> &nbsp
-							<span title="Select" class="glyphicon glyphicon-info-sign" style="cursor: pointer" ng-click="selectSideView(parent.stats.indices[key])"></span>
+							<span title="Select" ng-class="expand ? 'glyphicon glyphicon-resize-full' : 'glyphicon glyphicon-resize-small'" style="cursor: pointer" ng-init="expand = false" ng-click="expand = !expand"></span>
+						</div>
+					</div>
+					<div ng-show="expand" class="row">
+						<br>
+						<div class="col-lg-12 col-md-12 col-sm-12">
+							<pre>{{parent.stats.indices[key] | json}}</pre>
 						</div>
 					</div>
 				</li>
 			</ul>
-		</div>
-
-		<div class="col-lg-4 col-md-4 col-sm-4">
-			<pre>{{selectedSideView == undefined ? 'Select an open index to see more information.' :  selectedSideView| json}}</pre>
 		</div>
 	</div>
 	
