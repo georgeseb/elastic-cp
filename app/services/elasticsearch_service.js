@@ -47,6 +47,12 @@ app.factory("elasticsearchService", ["$http", function($http){
 		return $http.get(endpoint);
 	}
 
+	var getShardStore = function(){
+		var endpoint = elasticsearchHost + "/_shard_stores?status=red,yellow,green";
+
+		return $http.get(endpoint);
+	}
+
 	var genericRequest = function(method, endpoint, body){
 
 		if (method === undefined || endpoint === undefined) {
@@ -72,6 +78,7 @@ app.factory("elasticsearchService", ["$http", function($http){
 		createTempIndex: createTempIndex,
 		updateStats: updateStats,
 		updateClusterState: updateClusterState,
-		genericRequest: genericRequest
+		genericRequest: genericRequest,
+		getShardStore: getShardStore
 	};
 }]);

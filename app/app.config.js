@@ -9,8 +9,8 @@ app.config(["$routeProvider", function($routeProvider){
 			controller: "analysisController"
 		}).
 		when("/cluster", {
-			template: "",
-			controller: "mainController"
+			templateUrl: "../views/cluster_view.html",
+			controller: "clusterController"
 		}).
 		when("/index", {
 			templateUrl: "../views/index_view.html",
