@@ -1,10 +1,22 @@
-app.controller("clusterController", ["$scope", "elasticsearchService", "transformationService", function($scope, elasticsearchService, transformationService){
+app.controller("clusterController", ["$scope", "elasticsearchService", "transformationService", "$interval",
+	function($scope, elasticsearchService, transformationService, $interval){
 
-	elasticsearchService
-	.getShardStore()
-	.then(function(resp) {
+	var refreshRate = 1000;
+	var refreshIntervalHandle = $interval(() => elasticsearchService
+											.getShardStore()
+											.then(clusterStatusDisplay), 
+								refreshRate);
+
+	$scope.$on("$destroy", () => {
+		console.log("Cluster controller destroyed.")
+		$interval.cancel(refreshIntervalHandle);
+	})
+
+	function clusterStatusDisplay(resp) {
 
 		var trasformedData = transformationService.shardStoreToArray(resp.data)
+
+		d3.select("#clusterGraphic").select("svg").remove();
 
 		var svg = d3.select("#clusterGraphic")
 			.append("svg")
@@ -56,7 +68,9 @@ app.controller("clusterController", ["$scope", "elasticsearchService", "transfor
 			}
 			
 		}
-	})
+	}
+
+	
 	
 	
 }]);
