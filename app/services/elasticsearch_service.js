@@ -47,6 +47,12 @@ app.factory("elasticsearchService", ["$http", function($http){
 		return $http.get(endpoint);
 	}
 
+	var getClusterHealth = function(){
+		var endpoint = elasticsearchHost + "/_cluster/health";
+
+		return $http.get(endpoint);
+	}
+
 	var getShardStore = function(){
 		var endpoint = elasticsearchHost + "/_shard_stores?status=red,yellow,green";
 
@@ -79,6 +85,7 @@ app.factory("elasticsearchService", ["$http", function($http){
 		updateStats: updateStats,
 		updateClusterState: updateClusterState,
 		genericRequest: genericRequest,
-		getShardStore: getShardStore
+		getShardStore: getShardStore,
+		getClusterHealth: getClusterHealth
 	};
 }]);

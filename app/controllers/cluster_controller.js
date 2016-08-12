@@ -1,16 +1,31 @@
 app.controller("clusterController", ["$scope", "elasticsearchService", "transformationService", "$interval",
 	function($scope, elasticsearchService, transformationService, $interval){
 
+	$scope.clusterStatusMapping = {
+		red: "label-danger",
+		yellow: "label-warning",
+		green: "label-success"
+	};
+
 	var refreshRate = 1000;
-	var refreshIntervalHandle = $interval(() => elasticsearchService
-											.getShardStore()
-											.then(clusterStatusDisplay), 
-								refreshRate);
+
+	var refreshIntervalHandle = $interval(intervalFunction, refreshRate);
+	intervalFunction();
 
 	$scope.$on("$destroy", () => {
 		console.log("Cluster controller destroyed.")
 		$interval.cancel(refreshIntervalHandle);
 	})
+
+	function intervalFunction(){
+		elasticsearchService.getShardStore().then(clusterStatusDisplay);
+		elasticsearchService.getClusterHealth().then(clusterHealthProcess);
+	}
+
+	function clusterHealthProcess(resp) {
+		$scope.clusterStatus = resp.data.status;
+		$scope.numberOfNodes = resp.data.number_of_nodes;
+	}
 
 	function clusterStatusDisplay(resp) {
 

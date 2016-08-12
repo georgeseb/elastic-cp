@@ -1,6 +1,14 @@
 <div class="padding1">
 	
-	<div id="clusterGraphic">
-		
+	<div class="row">
+		<div class="col-lg-1 col-md-1 col-sm-1">
+			<span class="label" ng-class="clusterStatusMapping[clusterStatus]">Cluster Status: {{clusterStatus | uppercase}}</span>
+		</div>
+		<div class="col-lg-1 col-md-1 col-sm-1">
+			<span class="label label-default">Number of Nodes: {{numberOfNodes | uppercase}}</span>
+		</div>
 	</div>
+
+	<br>
+	<div id="clusterGraphic"></div>
 </div>
