@@ -23,8 +23,16 @@ app.controller("clusterController", ["$scope", "elasticsearchService", "transfor
 	}
 
 	function clusterHealthProcess(resp) {
-		$scope.clusterStatus = resp.data.status;
-		$scope.numberOfNodes = resp.data.number_of_nodes;
+		var data = resp.data;
+		$scope.clusterName = data.cluster_name;
+		$scope.clusterStatus = data.status;
+		$scope.numberOfNodes = data.number_of_nodes;
+		$scope.numberOfDataNodes = data.number_of_data_nodes;
+		$scope.activeShards = data.active_shards;
+		$scope.relocatingShards = data.relocating_shards;
+		$scope.initializingShards = data.initializing_shards;
+		$scope.unassignedShards = data.unassigned_shards;
+		$scope.delayedUnassignedShards = data.delayed_unassigned_shards;
 	}
 
 	function clusterStatusDisplay(resp) {

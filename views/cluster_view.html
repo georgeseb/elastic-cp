@@ -1,14 +1,26 @@
 <div class="padding1">
-	
+
 	<div class="row">
-		<div class="col-lg-1 col-md-1 col-sm-1">
-			<span class="label" ng-class="clusterStatusMapping[clusterStatus]">Cluster Status: {{clusterStatus | uppercase}}</span>
+		<div class="col-lg-9 col-md-9 col-sm-9">
+			<div id="clusterGraphic"></div>
 		</div>
-		<div class="col-lg-1 col-md-1 col-sm-1">
-			<span class="label label-default">Number of Nodes: {{numberOfNodes | uppercase}}</span>
+		<div class="col-lg-3 col-md-3 col-sm-3">
+			<span class="label label-primary">Cluster: {{clusterName}}</span>
+			<span class="label" ng-class="clusterStatusMapping[clusterStatus]">Status: {{clusterStatus | uppercase}}</span>
+			<br><br>
+			<ul class="list-group">
+				<li class="list-group-item">Number of Nodes: {{numberOfNodes}}</li>
+				<li class="list-group-item">Number of Data Nodes: {{numberOfNodes}}</li>
+			</ul>
+			<ul class="list-group">
+				<li class="list-group-item">Active Shards: {{activeShards}}</li>
+				<li class="list-group-item">Relocating Shards: {{relocatingShards}}</li>
+				<li class="list-group-item">Initializing Shards: {{initializingShards}}</li>
+				<li class="list-group-item">Unassigned Shards: {{unassignedShards}}</li>
+				<li class="list-group-item">Delayed Unassigned Shards: {{delayedUnassignedShards}}</li>
+			</ul>
 		</div>
 	</div>
 
-	<br>
-	<div id="clusterGraphic"></div>
+	
 </div>
