@@ -35,61 +35,86 @@ app.controller("clusterController", ["$scope", "elasticsearchService", "transfor
 		$scope.delayedUnassignedShards = data.delayed_unassigned_shards;
 	}
 
+	function translateValue(){
+
+	}
+
 	function clusterStatusDisplay(resp) {
 
-		var trasformedData = transformationService.shardStoreToArray(resp.data)
+		let trasformedData = transformationService.shardStoreToArray(resp.data);
+
+		let horizontalWidth = 500;
+		let horizontalCount = 3;
+
+		let svgWidth = horizontalWidth;
+
+		let spacePerNode = (horizontalWidth / horizontalCount);
+
+		let svgHeight = spacePerNode;
+
+		//Use 3/4 of the space for the drawing.
+		let outerRadius = (1/2) * ((4/5) * spacePerNode);
+
+		let innerRadius = outerRadius / 2;
+		let padAngle = outerRadius / 1000;
+		let cornerRadius = outerRadius / 10;
 
 		d3.select("#clusterGraphic").select("svg").remove();
 
-		var svg = d3.select("#clusterGraphic")
+		let svg = d3.select("#clusterGraphic")
 			.append("svg")
-				.attr("width", 1500)
-				.attr("height", 500);
-			
+				.attr("width", svgWidth)
+				.attr("height", svgHeight);
 
-		var arc = d3.arc()
-					.innerRadius(50)
-					.outerRadius(100)
-					.padAngle(.15)
+		let arc = d3.arc()
+					.innerRadius(innerRadius)
+					.outerRadius(outerRadius)
+					.padAngle(padAngle)
+					.cornerRadius(cornerRadius)
 
 
-		let i = 0;
-		let downTranslate = 100;
+		let xPosition = 0;
 
 		for (key in trasformedData) {
 
-			let arcs = d3.pie()
-					 .value(d => 1)
-					 (trasformedData[key]);
+			if (xPosition == horizontalCount) {
+				xPosition = 0;
+				svgHeight += spacePerNode;
+				svg.attr("height", svgHeight)
+			}
+
+			let arcs = d3.pie().value(d => 1)(trasformedData[key]);
 
 			for (let i = 0; i < arcs.length; i++) {
 				arcs[i].data = trasformedData[key][i];
 			}
 
-			svg
-				.append("g")
+			let group = svg.append("g")
+
+			group
 				.selectAll("path")
 				.data(arcs)
 				.enter()
 					.append("path")
 					.attr("d", d => {return arc(d)})
-					.attr("transform", "translate(" + (100 + (i * 250)) + ", " + downTranslate + ")")
+					.attr("transform", "translate(" + (outerRadius + (xPosition * spacePerNode)) + ", " + (outerRadius + (svgHeight - spacePerNode)) + ")")
 					.attr("stroke", "black")
 					.attr("stroke-width", .5)
 					.attr("fill", d => {
 						if (d.data.allocation == "primary") {
-							return "#8ECFE4";
+							return "#8EE498";
 						}
-						return "#8EE498";
-					})
+						return "#8ECFE4";
+					});
 
-			i++;
-			
-			if (i == 3) {
-				downTranslate += 250;
-				i = 0;
-			}
-			
+		/*
+			group
+				.append("text")
+				.attr("transform", "translate(" + (outerRadius + (xPosition * spacePerNode)) + ", " + (outerRadius + (svgHeight - spacePerNode)) + ")")
+				.text("Hello")
+		*/
+
+			xPosition++;
 		}
 	}
 
