@@ -1,12 +1,23 @@
 <div class="padding1">
 
 	<div class="row">
-		<div class="col-lg-9 col-md-9 col-sm-9">
+		<div class="col-lg-4 col-md-4 col-sm-4">
+			<ul class="list-group">
+				<li class="list-group-item"><strong>Node Name:</strong> {{selectedShard.name}}</li>
+				<li class="list-group-item"><strong>Node:</strong> {{selectedShard.node}}</li>	
+			</ul>
+			<ul class="list-group">
+				<li class="list-group-item" ng-style="{'background-color': colorScale(selectedShard.index)}"><strong>Index:</strong> {{selectedShard.index}}</li>
+				<li class="list-group-item"><strong>Shard #:</strong> {{selectedShard.shard}}</li>
+				<li class="list-group-item"><strong>Shard Type:</strong> {{selectedShard.allocation | uppercase}}</li>
+			</ul>
+		</div>
+		<div class="col-lg-4 col-md-4 col-sm-4">
 			<div id="clusterGraphic"></div>
 		</div>
-		<div class="col-lg-3 col-md-3 col-sm-3">
+		<div class="col-lg-4 col-md-4 col-sm-4">
 			<span class="label label-primary">Cluster: {{clusterName}}</span>
-			<span class="label" ng-class="clusterStatusMapping[clusterStatus]">Status: {{clusterStatus | uppercase}}</span>
+			<span class="label" ng-class="clusterStatusMapping[clusterStatus]">Status: {{clusterStatus}}</span>
 			<br><br>
 			<ul class="list-group">
 				<li class="list-group-item">Number of Nodes: {{numberOfNodes}}</li>

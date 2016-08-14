@@ -12,6 +12,5 @@ app.run(["$window", "elasticsearchService", function($window, elasticsearchServi
 					.createTempIndex(elasticMapperIndex);
 			}
 		});
-
 }])
 

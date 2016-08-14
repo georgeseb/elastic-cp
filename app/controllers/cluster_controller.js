@@ -1,5 +1,5 @@
-app.controller("clusterController", ["$scope", "elasticsearchService", "transformationService", "$interval",
-	function($scope, elasticsearchService, transformationService, $interval){
+app.controller("clusterController", ["$scope", "elasticsearchService", "transformationService", "$interval", "$window",
+	function($scope, elasticsearchService, transformationService, $interval, $window){
 
 	$scope.clusterStatusMapping = {
 		red: "label-danger",
@@ -7,7 +7,9 @@ app.controller("clusterController", ["$scope", "elasticsearchService", "transfor
 		green: "label-success"
 	};
 
-	var refreshRate = 1000;
+	$scope.selectedShard = {};
+
+	var refreshRate = 3000;
 
 	var refreshIntervalHandle = $interval(intervalFunction, refreshRate);
 	intervalFunction();
@@ -35,16 +37,22 @@ app.controller("clusterController", ["$scope", "elasticsearchService", "transfor
 		$scope.delayedUnassignedShards = data.delayed_unassigned_shards;
 	}
 
-	function translateValue(){
-
-	}
+	$scope.colorScale = d3.scaleOrdinal(d3.schemeCategory20);
 
 	function clusterStatusDisplay(resp) {
 
-		let trasformedData = transformationService.shardStoreToArray(resp.data);
+		let transformedData = transformationService.shardStoreToArray(resp.data);
 
-		let horizontalWidth = 500;
-		let horizontalCount = 3;
+		//Sort by node and for each node sort the corresponding array by index name.
+		var nodes = [];
+		for (key in transformedData) {
+			nodes.push(key);
+			transformedData[key] = _.sortBy(transformedData[key], (d) => d.index);
+		}
+		nodes.sort();
+
+		let horizontalWidth = $window.innerWidth * (3/10);
+		let horizontalCount = 2;
 
 		let svgWidth = horizontalWidth;
 
@@ -56,7 +64,7 @@ app.controller("clusterController", ["$scope", "elasticsearchService", "transfor
 		let outerRadius = (1/2) * ((4/5) * spacePerNode);
 
 		let innerRadius = outerRadius / 2;
-		let padAngle = outerRadius / 1000;
+		let padAngle = outerRadius / 10000;
 		let cornerRadius = outerRadius / 10;
 
 		d3.select("#clusterGraphic").select("svg").remove();
@@ -75,7 +83,7 @@ app.controller("clusterController", ["$scope", "elasticsearchService", "transfor
 
 		let xPosition = 0;
 
-		for (key in trasformedData) {
+		for (let n = 0; n < nodes.length; n++) {
 
 			if (xPosition == horizontalCount) {
 				xPosition = 0;
@@ -83,13 +91,15 @@ app.controller("clusterController", ["$scope", "elasticsearchService", "transfor
 				svg.attr("height", svgHeight)
 			}
 
-			let arcs = d3.pie().value(d => 1)(trasformedData[key]);
+			let arcs = d3.pie().value(d => 1)(transformedData[nodes[n]]);
 
 			for (let i = 0; i < arcs.length; i++) {
-				arcs[i].data = trasformedData[key][i];
+				arcs[i].data = transformedData[nodes[n]][i];
 			}
 
-			let group = svg.append("g")
+			let group = svg.append("g").on("mouseover", (d, i) => {
+				//console.log("group level")
+			})
 
 			group
 				.selectAll("path")
@@ -98,17 +108,25 @@ app.controller("clusterController", ["$scope", "elasticsearchService", "transfor
 					.append("path")
 					.attr("d", d => {return arc(d)})
 					.attr("transform", "translate(" + (outerRadius + (xPosition * spacePerNode)) + ", " + (outerRadius + (svgHeight - spacePerNode)) + ")")
-					.attr("stroke", "black")
-					.attr("stroke-width", .5)
-					.attr("fill", d => {
+					.attr("fill", (d) => {
+						let index = d.data.index;
+						return $scope.colorScale(index);
+					})
+					.attr("stroke-width", 1)
+					.attr("stroke", d => {
 						if (d.data.allocation == "primary") {
-							return "#8EE498";
+							return "black";
 						}
-						return "#8ECFE4";
-					});
+						return "white";
+					})	
+					.on("mouseover", (d, i, nodes) => {
+						$scope.selectedShard = d.data;
+						$scope.$digest();
+					})
 
 		/*
 			group
+				.selectAll("path")
 				.append("text")
 				.attr("transform", "translate(" + (outerRadius + (xPosition * spacePerNode)) + ", " + (outerRadius + (svgHeight - spacePerNode)) + ")")
 				.text("Hello")

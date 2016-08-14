@@ -7,7 +7,7 @@ app.controller("mainController", ["$scope", "$location", "$window", "elasticsear
 	$scope.updateStats = function(timeoutStats, timeoutClusterState){
 
 		setTimeout(() => {
-			elasticsearchService.updateStats().then((resp) => {$scope.stats = resp.data; console.log($scope.stats);})
+			elasticsearchService.updateStats().then((resp) => {$scope.stats = resp.data;})
 		}, timeoutStats);
 
 		setTimeout(() => {
