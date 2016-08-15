@@ -97,9 +97,7 @@ app.controller("clusterController", ["$scope", "elasticsearchService", "transfor
 				arcs[i].data = transformedData[nodes[n]][i];
 			}
 
-			let group = svg.append("g").on("mouseover", (d, i) => {
-				//console.log("group level")
-			})
+			let group = svg.append("g");
 
 			group
 				.selectAll("path")
@@ -107,22 +105,35 @@ app.controller("clusterController", ["$scope", "elasticsearchService", "transfor
 				.enter()
 					.append("path")
 					.attr("d", d => {return arc(d)})
-					.attr("transform", "translate(" + (outerRadius + (xPosition * spacePerNode)) + ", " + (outerRadius + (svgHeight - spacePerNode)) + ")")
+					.attr("transform", "translate(" + (outerRadius + (xPosition * spacePerNode)) + ", " 
+						+ (svgHeight - spacePerNode/2) + ")")
 					.attr("fill", (d) => {
 						let index = d.data.index;
 						return $scope.colorScale(index);
 					})
-					.attr("stroke-width", 1)
+					.attr("stroke-width", d => {
+						if (d.data.allocation == "primary") {
+							return 2;
+						}
+						return 0;
+					})
 					.attr("stroke", d => {
 						if (d.data.allocation == "primary") {
 							return "black";
 						}
 						return "white";
-					})	
-					.on("mouseover", (d, i, nodes) => {
+					})
+					.style("cursor", "pointer")	
+					.on("click", (d, i, nodes) => {
 						$scope.selectedShard = d.data;
 						$scope.$digest();
 					})
+
+			group
+			.append("text")
+			.attr("transform", "translate(" + (xPosition * spacePerNode)
+				  + ", " + svgHeight + ")")
+			.text(nodes[n]);
 
 		/*
 			group

@@ -9,40 +9,52 @@ app.factory("transformationService", ["$http", function($http){
 		}
 
 		var temp = {};
+		temp["Unassigned"] = [];
 
 		for (index in input.indices) {
 			
 			let selectedIndex = input.indices[index];
 
-				for (shard in selectedIndex.shards) {
+			for (shard in selectedIndex.shards) {
 
-					let selectedShard = selectedIndex.shards[shard];
+				let selectedShard = selectedIndex.shards[shard];
 
-						for (store in selectedShard.stores) {
+				if (selectedShard.stores.length == 0) {
+					let newEntry = {
+						index: index,
+						shard: shard,
+						allocation: "Unassigned",
+						name: "Unassigned",
+						node: "Unassigned"
+					}
+					temp["Unassigned"].push(newEntry); 
+				}
 
-							let selectedStore = selectedShard.stores[store];
+				for (store in selectedShard.stores) {
 
-							let newEntry = {
-										index: index,
-										shard: shard,
-										allocation: selectedStore.allocation
-									};
+					let selectedStore = selectedShard.stores[store];
 
-							for (key in selectedStore) {
+					let newEntry = {
+								index: index,
+								shard: shard,
+								allocation: selectedStore.allocation
+							};
 
-									if (selectedStore[key].name !== undefined) {
-										newEntry.name = selectedStore[key].name;
-										newEntry.node = key;
-										if (temp[key] === undefined) {
-											temp[key] = [];
-										} 
-										temp[key].push(newEntry);
-										break;
-									}
-									
+					for (key in selectedStore) {
+
+							if (selectedStore[key].name !== undefined) {
+								newEntry.name = selectedStore[key].name;
+								newEntry.node = key;
+								if (temp[key] === undefined) {
+									temp[key] = [];
+								} 
+								temp[key].push(newEntry);
+								break;
 							}
-						}
-				}	
+							
+					}
+				}
+			}	
 		}
 
 		return temp;
