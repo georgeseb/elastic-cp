@@ -9,7 +9,7 @@ app.factory("transformationService", ["$http", function($http){
 		}
 
 		var temp = {};
-		temp["Unassigned"] = [];
+		temp["~Unassigned"] = [];
 
 		for (index in input.indices) {
 			
@@ -27,7 +27,7 @@ app.factory("transformationService", ["$http", function($http){
 						name: "Unassigned",
 						node: "Unassigned"
 					}
-					temp["Unassigned"].push(newEntry); 
+					temp["~Unassigned"].push(newEntry); 
 				}
 
 				for (store in selectedShard.stores) {
@@ -45,10 +45,10 @@ app.factory("transformationService", ["$http", function($http){
 							if (selectedStore[key].name !== undefined) {
 								newEntry.name = selectedStore[key].name;
 								newEntry.node = key;
-								if (temp[key] === undefined) {
-									temp[key] = [];
+								if (temp[newEntry.name] === undefined) {
+									temp[newEntry.name] = [];
 								} 
-								temp[key].push(newEntry);
+								temp[newEntry.name].push(newEntry);
 								break;
 							}
 							
