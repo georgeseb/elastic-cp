@@ -2,18 +2,24 @@
 <div class="container-fluid">
 	<div class="jumbotron row">
 		<div class="col-lg-8 col-md-8 col-sm-8">
-			<h2>Elasticsearch Mapping</h2>
+			<h2>Elasticsearch Control Panel</h2>
 			<p>
-				1. Create a new mapping. <br>
-				2. Update an existing mapping.
+				1. Manage Indices. <br>
+				2. Manage Cluster.
 			</p>
 		</div>
 
 		<div class="col-lg-4 col-md-4 col-sm-4">
 			<br>
-			<button class="btn btn-success btn-lg"><span class="glyphicon glyphicon-plus"></span> Create Mapping</button>
+			<button ng-click="parent.activeTab = 3" class="btn btn-success btn-lg">
+				Manage Indices
+				<span class="glyphicon glyphicon-pencil"></span>
+			</button>
 			<br><br>
-			<button ng-click="parent.activeTab = 3" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-pencil"></span> Update Mapping</button>
+			<button ng-click="parent.activeTab = 2" class="btn btn-primary btn-lg">
+				Monitor Cluster  
+				<span class="glyphicon glyphicon-dashboard"></span>
+			</button>
 		</div>
 	</div>
 </div>

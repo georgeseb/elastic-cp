@@ -48,6 +48,7 @@ app.controller("clusterController", ["$scope", "elasticsearchService", "transfor
 		for (key in transformedData) {
 			nodes.push(key);
 			transformedData[key] = _.sortBy(transformedData[key], (d) => d.index);
+			console.log(transformedData[key])
 		}
 		nodes.sort();
 
@@ -91,6 +92,7 @@ app.controller("clusterController", ["$scope", "elasticsearchService", "transfor
 				svg.attr("height", svgHeight)
 			}
 
+			
 			let arcs = d3.pie().value(d => 1)(transformedData[nodes[n]]);
 
 			for (let i = 0; i < arcs.length; i++) {
