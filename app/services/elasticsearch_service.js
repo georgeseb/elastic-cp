@@ -77,9 +77,7 @@ app.factory("elasticsearchService", ["$http", function($http){
 		return $http(config);
 	}
 
-
 	return {
-		host: elasticsearchHost,
 		sendAnalyzeRequest: sendAnalyzeRequest,
 		createTempIndex: createTempIndex,
 		updateStats: updateStats,

@@ -15,7 +15,6 @@ app.controller("clusterController", ["$scope", "elasticsearchService", "transfor
 	intervalFunction();
 
 	$scope.$on("$destroy", () => {
-		console.log("Cluster controller destroyed.")
 		$interval.cancel(refreshIntervalHandle);
 	})
 
@@ -48,7 +47,6 @@ app.controller("clusterController", ["$scope", "elasticsearchService", "transfor
 		for (key in transformedData) {
 			nodes.push(key);
 			transformedData[key] = _.sortBy(transformedData[key], (d) => d.index);
-			console.log(transformedData[key])
 		}
 		nodes.sort();
 

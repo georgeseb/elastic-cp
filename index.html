@@ -37,16 +37,16 @@
 	<body class="padding2" ng-app="elasticMapper" ng-controller="mainController">
 
 		<div class="row">
-			<div class="col-lg-10 col-md-10 col-sm-10">
+			<div class="col-lg-11 col-md-11 col-sm-11">
 				<uib-tabset active="activeTab">
 					<uib-tab index="0" heading="Start"></uib-tab>
+					<uib-tab index="2" heading="Cluster Monitor"></uib-tab>
 					<uib-tab index="3" heading="Index Maintenance"></uib-tab>
-					<uib-tab index="2" heading="Cluster Maintenance"></uib-tab>
-					<uib-tab index="1" heading="Analysis"></uib-tab>
+					<uib-tab index="1" heading="Analysis Tools"></uib-tab>
 				</uib-tabset>
 			</div>
-			<div class="col-lg-2 col-md-2 col-sm-2">
-				<button ng-click="updateStats()" class="btn glyphicon glyphicon-refresh"/>
+			<div class="col-lg-1 col-md-1 col-sm-1">
+				<button ng-model="refresh" ng-init="refresh=false" ng-click="refresh = !refresh" class="btn btn-primary glyphicon" ng-class="refresh == true ? 'glyphicon-pause' : 'glyphicon-play'"></button>
 			</div>
 		</div>
 
