@@ -26,7 +26,8 @@
 						<div class="col-lg-2 col-md-2 col-sm-2">
 							<span title="Open" style="cursor: pointer" ng-style="value.state == 'open' ? {color:'green'} : ''" class="glyphicon glyphicon-ok-circle" ng-click="openIndex(key)"></span> &nbsp
 							<span title="Close" style="cursor: pointer" ng-style="value.state == 'close' ? {color:'red'} : ''" class="glyphicon glyphicon-ban-circle" ng-click="closeIndex(key)"></span>  &nbsp
-							<span title="Delete" style="cursor: pointer" class="glyphicon glyphicon-remove-circle" ng-click="deleteIndex(key)"></span> &nbsp
+							<span title="Clear Cache" style="cursor: pointer" class="glyphicon glyphicon-remove-circle" ng-click="clearCache(key)"></span> &nbsp
+							<span title="Delete" style="cursor: pointer" class="glyphicon glyphicon-trash" ng-click="deleteIndex(key)"></span> &nbsp
 							<span title="Select" ng-class="expand ? 'glyphicon glyphicon-resize-full' : 'glyphicon glyphicon-resize-small'" style="cursor: pointer" ng-init="expand = false" ng-click="expand = !expand"></span>
 						</div>
 					</div>

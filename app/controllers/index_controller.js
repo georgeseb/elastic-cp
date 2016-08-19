@@ -23,6 +23,13 @@ app.controller("indexController", ["$scope", "elasticsearchService", function($s
 							})
 	}
 
+	$scope.clearCache = function(indexName){
+		elasticsearchService.genericRequest("POST", "/" + indexName + "/_cache/clear")
+							.then((resp) => {
+								$scope.parent.updateStats();
+							})
+	}
+
 	$scope.getDate = function(date){
 		return new Date(parseInt(date)).toLocaleDateString();
 	}

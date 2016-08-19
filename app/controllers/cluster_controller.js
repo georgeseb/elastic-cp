@@ -9,10 +9,22 @@ app.controller("clusterController", ["$scope", "elasticsearchService", "transfor
 
 	$scope.selectedShard = {};
 
-	var refreshRate = 3000;
-
-	var refreshIntervalHandle = $interval(intervalFunction, refreshRate);
+	var refreshRate = 1000;
+	var refreshIntervalHandle = undefined;
 	intervalFunction();
+
+	$scope.$watch(() => {return $scope.$parent.refresh;}, (newValue, oldValue) => {
+		if (newValue == true) {
+			if (refreshIntervalHandle === undefined) {
+				refreshIntervalHandle = $interval(intervalFunction, refreshRate);
+			}
+		} else {
+			if (refreshIntervalHandle !== undefined) {
+				$interval.cancel(refreshIntervalHandle);
+				refreshIntervalHandle = undefined;
+			}
+		}
+	})
 
 	$scope.$on("$destroy", () => {
 		$interval.cancel(refreshIntervalHandle);
