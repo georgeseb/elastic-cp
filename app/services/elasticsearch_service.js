@@ -2,6 +2,30 @@ app.factory("elasticsearchService", ["$http", function($http){
 
 	var elasticsearchHost = "http://localhost:9200";
 
+	var genericRequest = function(method, endpoint, body, params){
+
+		if (method === undefined || endpoint === undefined) {
+			return;
+		}
+
+		var config = {
+			method: method,
+			url: elasticsearchHost + endpoint,
+			params: params
+		};
+
+		if (body !== undefined){
+			config.data = body;
+		}
+
+		return $http(config);
+	}
+
+	var createIndex = function(indexName, configurations) {
+		
+		return genericRequest("POST", "/" + indexName, configurations);
+	}
+
 	var createTempIndex = function(indexName) {
 
 		if (indexName === undefined) {
@@ -59,23 +83,7 @@ app.factory("elasticsearchService", ["$http", function($http){
 		return $http.get(endpoint);
 	}
 
-	var genericRequest = function(method, endpoint, body){
-
-		if (method === undefined || endpoint === undefined) {
-			return;
-		}
-
-		var config = {
-			method: method,
-			url: elasticsearchHost + endpoint
-		};
-
-		if (body !== undefined){
-			config.data = body;
-		}
-
-		return $http(config);
-	}
+	
 
 	return {
 		sendAnalyzeRequest: sendAnalyzeRequest,

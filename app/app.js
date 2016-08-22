@@ -8,8 +8,15 @@ app.run(["$window", "elasticsearchService", function($window, elasticsearchServi
 		.genericRequest("HEAD", "/" + elasticMapperIndex)
 		.then((resp) => {}, (err) => {
 			if (err.status == 404) {
-				elasticsearchService
-					.createTempIndex(elasticMapperIndex);
+				var configurations = {
+				    "settings" : {
+				        "index" : {
+				            "number_of_shards" : 1, 
+				            "number_of_replicas" : 0
+				        }
+				    }
+				}
+				elasticsearchService.createTempIndex(elasticMapperIndex, configurations);
 			}
 		});
 }])

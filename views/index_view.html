@@ -24,22 +24,33 @@
 						<div class="col-lg-1 col-md-1 col-sm-1">{{parent.stats.indices[key].primaries.docs.deleted}}</div>
 						<div class="col-lg-2 col-md-2 col-sm-2">{{getDate(value.settings.index.creation_date)}}</div>
 						<div class="col-lg-2 col-md-2 col-sm-2">
-							<span title="Open" style="cursor: pointer" ng-style="value.state == 'open' ? {color:'green'} : ''" class="glyphicon glyphicon-ok-circle" ng-click="openIndex(key)"></span> &nbsp
-							<span title="Close" style="cursor: pointer" ng-style="value.state == 'close' ? {color:'red'} : ''" class="glyphicon glyphicon-ban-circle" ng-click="closeIndex(key)"></span>  &nbsp
-							<span title="Clear Cache" style="cursor: pointer" class="glyphicon glyphicon-remove-circle" ng-click="clearCache(key)"></span> &nbsp
+							<span title="Open/Close" style="cursor: pointer" ng-class="(value.state == 'close') ? 'glyphicon glyphicon-ban-circle' : 'glyphicon glyphicon-ok-circle'" ng-click="value.state == 'open' ? closeIndex(key) : openIndex(key)"></span>  
+							&nbsp
+							<span title="Clear Cache" uib-dropdown>
+								<span uib-dropdown-toggle style="cursor: pointer" class="glyphicon glyphicon-remove-circle" ></span>
+								<ul class="dropdown-menu" uib-dropdown-menu>
+									<li><a><strong>Clear Cache</strong></a></li>
+									<li class="divider"></li>
+									<li><a href ng-click="clearCache(key, 'query')">Query</a></li>
+									<li><a href ng-click="clearCache(key, 'fielddata')">Field Data</a></li>
+									<li><a href ng-click="clearCache(key, 'request')">Request</a></li>
+									<li><a href ng-click="clearCache(key)">All</a></li>
+								</ul>
+							</span> &nbsp
 							<span title="Delete" style="cursor: pointer" class="glyphicon glyphicon-trash" ng-click="deleteIndex(key)"></span> &nbsp
 							<span title="Select" ng-class="expand ? 'glyphicon glyphicon-resize-full' : 'glyphicon glyphicon-resize-small'" style="cursor: pointer" ng-init="expand = false" ng-click="expand = !expand"></span>
 						</div>
 					</div>
-					<div ng-show="expand" class="row">
+					<div ng-show="expand" class="row padding2">
 						<br>
-						<div class="col-lg-12 col-md-12 col-sm-12">
-							<pre>{{parent.stats.indices[key] | json}}</pre>
-						</div>
+						<uib-tabset active="indexActiveTab">
+							<uib-tab index="0" heading="Data">a</uib-tab>
+							<uib-tab index="1" heading="Mapping">b</uib-tab>
+							<uib-tab index="2" heading="Settings">c</uib-tab>
+						</uib-tabset>
 					</div>
 				</li>
 			</ul>
 		</div>
-	</div>
-	
+	</div>	
 </div>

@@ -28,6 +28,7 @@ app.controller("clusterController", ["$scope", "elasticsearchService", "transfor
 
 	$scope.$on("$destroy", () => {
 		$interval.cancel(refreshIntervalHandle);
+		$scope.$parent.refresh = false;
 	})
 
 	function intervalFunction(){

@@ -23,8 +23,12 @@ app.controller("indexController", ["$scope", "elasticsearchService", function($s
 							})
 	}
 
-	$scope.clearCache = function(indexName){
-		elasticsearchService.genericRequest("POST", "/" + indexName + "/_cache/clear")
+	$scope.clearCache = function(indexName, type){
+
+		var params = {};
+		params[type] = "";
+
+		elasticsearchService.genericRequest("POST", "/" + indexName + "/_cache/clear", params)
 							.then((resp) => {
 								$scope.parent.updateStats();
 							})
