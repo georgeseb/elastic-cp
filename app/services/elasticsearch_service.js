@@ -21,76 +21,52 @@ app.factory("elasticsearchService", ["$http", function($http){
 		return $http(config);
 	}
 
+	var checkForIndex = function(indexName){
+
+		return genericRequest("HEAD", "/" + indexName);
+	}
+
 	var createIndex = function(indexName, configurations) {
 		
 		return genericRequest("POST", "/" + indexName, configurations);
 	}
 
-	var createTempIndex = function(indexName) {
-
-		if (indexName === undefined) {
-			indexName = "elasticmapper-" + (new Date()).getTime();
-		} 
-		
-		var endpoint = elasticsearchHost + "/" + indexName;
-
-		var data = {
-		    "settings" : {
-		        "index" : {
-		            "number_of_shards" : 1, 
-		            "number_of_replicas" : 0
-		        }
-		    }
-		}
-
-		return $http.post(endpoint, data);
-	}
-
 	var sendAnalyzeRequest = function(data, index){
 
-		var endpoint = elasticsearchHost + "/_analyze" + (index !== undefined ? "/" + index : "");
+		var endpoint = "/_analyze" + (index !== undefined ? "/" + index : "");
 
-		if (data === undefined) {
-			data = {};
-		}
-
-		return $http.post(endpoint, data);
+		return genericRequest("POST", endpoint, data);
 	};
 
 	var updateStats = function(){
 
-		var endpoint = elasticsearchHost + "/_stats";
-
-		return $http.get(endpoint);
+		return genericRequest("GET", "/_stats");
 	}
 
 	var updateClusterState = function(){
 
-		var endpoint = elasticsearchHost + "/_cluster/state";
-
-		return $http.get(endpoint);
+		return genericRequest("GET", "/_cluster/state");
 	}
 
 	var getClusterHealth = function(){
-		var endpoint = elasticsearchHost + "/_cluster/health";
 
-		return $http.get(endpoint);
+		return genericRequest("GET", "/_cluster/health");
 	}
 
 	var getShardStore = function(){
-		var endpoint = elasticsearchHost + "/_shard_stores?status=red,yellow,green";
 
-		return $http.get(endpoint);
+		var params = {status: "red,yellow,green"};
+
+		return genericRequest("GET", "/_shard_stores", undefined, params);
 	}
 
-	
-
 	return {
+		genericRequest: genericRequest,
+		checkForIndex: checkForIndex,
+		createIndex: createIndex,
 		sendAnalyzeRequest: sendAnalyzeRequest,
-		createTempIndex: createTempIndex,
 		updateStats: updateStats,
 		updateClusterState: updateClusterState,
-		genericRequest: genericRequest,
 		getShardStore: getShardStore,
 		getClusterHealth: getClusterHealth
 	};
