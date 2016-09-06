@@ -1,4 +1,4 @@
-app.config(["$routeProvider", function($routeProvider){
+app.config(["$routeProvider", "elasticsearchServiceProvider", function($routeProvider, elasticsearchService){
 	$routeProvider.
 		when("/start", {
 			templateUrl: "../views/start_view.html",
@@ -17,4 +17,6 @@ app.config(["$routeProvider", function($routeProvider){
 			controller: "indexController"
 		}).
 		otherwise("/start")
+
+		elasticsearchService.setElasticsearchHost("http://localhost:9200");
 }])

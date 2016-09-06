@@ -148,19 +148,9 @@ app.controller("clusterController", ["$scope", "elasticsearchService", "transfor
 				  + ", " + svgHeight + ")")
 			.text(nodes[n]);
 
-		/*
-			group
-				.selectAll("path")
-				.append("text")
-				.attr("transform", "translate(" + (outerRadius + (xPosition * spacePerNode)) + ", " + (outerRadius + (svgHeight - spacePerNode)) + ")")
-				.text("Hello")
-		*/
-
 			xPosition++;
 		}
 	}
 
-	
-	
 	
 }]);

@@ -1,73 +1,73 @@
-app.factory("elasticsearchService", ["$http", function($http){
+app.provider("elasticsearchService", function elasticsearchServiceProvider(){
 
-	var elasticsearchHost = "http://localhost:9200";
+	var elasticsearchHost;
 
-	var genericRequest = function(method, endpoint, body, params){
+	this.setElasticsearchHost = function(host){
+		elasticsearchHost = host;
+	}
 
-		if (method === undefined || endpoint === undefined) {
-			return;
+	this.$get = ["$http", function($http){
+
+		var genericRequest = function(method, endpoint, body, params){
+
+			if (method === undefined || endpoint === undefined) {
+				return;
+			}
+
+			var config = {
+				method: method,
+				url: elasticsearchHost + endpoint,
+				params: params
+			};
+
+			if (body !== undefined){
+				config.data = body;
+			}
+
+			return $http(config);
 		}
 
-		var config = {
-			method: method,
-			url: elasticsearchHost + endpoint,
-			params: params
+		var checkForIndex = function(indexName){
+			return genericRequest("HEAD", "/" + indexName);
+		}
+
+		var createIndex = function(indexName, configurations) {
+			return genericRequest("POST", "/" + indexName, configurations);
+		}
+
+		var sendAnalyzeRequest = function(data, index){
+			var endpoint = "/_analyze" + (index !== undefined ? "/" + index : "");
+			return genericRequest("POST", endpoint, data);
 		};
 
-		if (body !== undefined){
-			config.data = body;
+		var updateStats = function(){
+			return genericRequest("GET", "/_stats");
 		}
 
-		return $http(config);
-	}
+		var updateClusterState = function(){
+			return genericRequest("GET", "/_cluster/state");
+		}
 
-	var checkForIndex = function(indexName){
+		var getClusterHealth = function(){
+			return genericRequest("GET", "/_cluster/health");
+		}
 
-		return genericRequest("HEAD", "/" + indexName);
-	}
+		var getShardStore = function(){
+			var params = {status: "red,yellow,green"};
+			return genericRequest("GET", "/_shard_stores", undefined, params);
+		}
 
-	var createIndex = function(indexName, configurations) {
-		
-		return genericRequest("POST", "/" + indexName, configurations);
-	}
+		return {
+			genericRequest: genericRequest,
+			checkForIndex: checkForIndex,
+			createIndex: createIndex,
+			sendAnalyzeRequest: sendAnalyzeRequest,
+			updateStats: updateStats,
+			updateClusterState: updateClusterState,
+			getShardStore: getShardStore,
+			getClusterHealth: getClusterHealth
+		};
+	}];
 
-	var sendAnalyzeRequest = function(data, index){
-
-		var endpoint = "/_analyze" + (index !== undefined ? "/" + index : "");
-
-		return genericRequest("POST", endpoint, data);
-	};
-
-	var updateStats = function(){
-
-		return genericRequest("GET", "/_stats");
-	}
-
-	var updateClusterState = function(){
-
-		return genericRequest("GET", "/_cluster/state");
-	}
-
-	var getClusterHealth = function(){
-
-		return genericRequest("GET", "/_cluster/health");
-	}
-
-	var getShardStore = function(){
-
-		var params = {status: "red,yellow,green"};
-
-		return genericRequest("GET", "/_shard_stores", undefined, params);
-	}
-
-	return {
-		genericRequest: genericRequest,
-		checkForIndex: checkForIndex,
-		createIndex: createIndex,
-		sendAnalyzeRequest: sendAnalyzeRequest,
-		updateStats: updateStats,
-		updateClusterState: updateClusterState,
-		getShardStore: getShardStore,
-		getClusterHealth: getClusterHealth
-	};
-}]);
+	
+});
