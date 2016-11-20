@@ -1,4 +1,5 @@
-app.controller("mainController", ["$scope", "$location", "$window", "elasticsearchService", function($scope, $location, $window, elasticsearchService){
+app.controller("mainController", ["$scope", "$location", "$window", "elasticsearchService", 
+	function($scope, $location, $window, elasticsearchService){
 
 	$scope.stats;
 	$scope.clusterState;
@@ -7,11 +8,11 @@ app.controller("mainController", ["$scope", "$location", "$window", "elasticsear
 	$scope.updateStats = function(timeoutStats, timeoutClusterState){
 
 		setTimeout(() => {
-			elasticsearchService.updateStats().then((resp) => {$scope.stats = resp.data;})
+			elasticsearchService.getStats().then((resp) => {$scope.stats = resp.data;})
 		}, timeoutStats);
 
 		setTimeout(() => {
-			elasticsearchService.updateClusterState().then((resp) => {$scope.clusterState = resp.data;})
+			elasticsearchService.getClusterState().then((resp) => {$scope.clusterState = resp.data;})
 		}, timeoutClusterState);
 		
 	}

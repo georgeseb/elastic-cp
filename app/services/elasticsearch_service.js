@@ -11,7 +11,7 @@ app.provider("elasticsearchService", function elasticsearchServiceProvider(){
 		var genericRequest = function(method, endpoint, body, params){
 
 			if (method === undefined || endpoint === undefined) {
-				return;
+				return undefined;
 			}
 
 			var config = {
@@ -27,6 +27,22 @@ app.provider("elasticsearchService", function elasticsearchServiceProvider(){
 			return $http(config);
 		}
 
+		var deleteIndex = function(indexName){
+			return genericRequest("DELETE", "/" + indexName);
+		}
+
+		var openIndex = function(indexName){
+			return genericRequest("POST", "/" + indexName + "/_open")
+		}
+
+		var closeIndex = function(indexName){
+			return genericRequest("POST", "/" + indexName + "/_close")
+		}
+
+		var clearCache = function(indexName, params){
+			return genericRequest("POST", "/" + indexName + "/_cache/clear", params)
+		}
+
 		var checkForIndex = function(indexName){
 			return genericRequest("HEAD", "/" + indexName);
 		}
@@ -40,11 +56,11 @@ app.provider("elasticsearchService", function elasticsearchServiceProvider(){
 			return genericRequest("POST", endpoint, data);
 		};
 
-		var updateStats = function(){
+		var getStats = function(){
 			return genericRequest("GET", "/_stats");
 		}
 
-		var updateClusterState = function(){
+		var getClusterState = function(){
 			return genericRequest("GET", "/_cluster/state");
 		}
 
@@ -59,15 +75,18 @@ app.provider("elasticsearchService", function elasticsearchServiceProvider(){
 
 		return {
 			genericRequest: genericRequest,
+			deleteIndex: deleteIndex,
+			openIndex: openIndex,
+			closeIndex: closeIndex,
+			clearCache: clearCache,
 			checkForIndex: checkForIndex,
 			createIndex: createIndex,
 			sendAnalyzeRequest: sendAnalyzeRequest,
-			updateStats: updateStats,
-			updateClusterState: updateClusterState,
+			getStats: getStats,
+			getClusterState: getClusterState,
 			getShardStore: getShardStore,
 			getClusterHealth: getClusterHealth
 		};
 	}];
-
 	
 });

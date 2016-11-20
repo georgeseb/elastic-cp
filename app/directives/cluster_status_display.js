@@ -6,6 +6,7 @@ app.directive("clusterDisplay", ["$window", function($window){
 
 		scope.$watch(() => {return scope.data}, (transformedData, oldTransformedData) => {
 
+			console.log(transformedData)
 			if (transformedData != oldTransformedData) {
 
 				//Sort by node and for each node sort the corresponding array by index name.

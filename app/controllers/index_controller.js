@@ -3,24 +3,21 @@ app.controller("indexController", ["$scope", "elasticsearchService", function($s
 	$scope.parent = $scope.$parent;
 
 	$scope.deleteIndex = function(indexName){
-		elasticsearchService.genericRequest("DELETE", "/" + indexName)
-							.then((resp) => {
-								$scope.parent.updateStats();
-							})
+		elasticsearchService.deleteIndex(indexName).then((resp) => {
+			$scope.parent.updateStats();
+		})
 	}
 
 	$scope.openIndex = function(indexName){
-		elasticsearchService.genericRequest("POST", "/" + indexName + "/_open")
-							.then((resp) => {
-								$scope.parent.updateStats(1000, 0);
-							})
+		elasticsearchService.openIndex(indexName).then((resp) => {
+			$scope.parent.updateStats(1000, 0);
+		})
 	}
 
 	$scope.closeIndex = function(indexName){
-		elasticsearchService.genericRequest("POST", "/" + indexName + "/_close")
-							.then((resp) => {
-								$scope.parent.updateStats();
-							})
+		elasticsearchService.closeIndex(indexName).then((resp) => {
+			$scope.parent.updateStats();
+		})
 	}
 
 	$scope.clearCache = function(indexName, type){
@@ -28,10 +25,9 @@ app.controller("indexController", ["$scope", "elasticsearchService", function($s
 		var params = {};
 		params[type] = "";
 
-		elasticsearchService.genericRequest("POST", "/" + indexName + "/_cache/clear", params)
-							.then((resp) => {
-								$scope.parent.updateStats();
-							})
+		elasticsearchService.clearCache(indexName, params).then((resp) => {
+			$scope.parent.updateStats();
+		})
 	}
 
 	$scope.getDate = function(date){
