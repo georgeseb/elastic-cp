@@ -34,6 +34,7 @@
 		<script src="./app/controllers/main_controller.js"></script>
 		<script src="./app/controllers/start_controller.js"></script>
 		<script src="./app/controllers/cluster_controller.js"></script>
+		<script src="./app/directives/cluster_status_display.js"></script>
 		<link rel="stylesheet" type="text/css" href="./css/style.css">
 	</head>
 
@@ -49,7 +50,7 @@
 				</uib-tabset>
 			</div>
 			<div class="col-lg-1 col-md-1 col-sm-1">
-				<button ng-model="refresh" ng-init="refresh=false" ng-click="refresh = !refresh" class="btn btn-primary glyphicon" ng-class="refresh == true ? 'glyphicon-pause' : 'glyphicon-play'"></button>
+				<button ng-model="refresh" ng-init="refresh=false" ng-click="refresh = !refresh" class="btn btn-primary glyphicon" ng-class="refresh ? 'glyphicon-pause' : 'glyphicon-play'"></button>
 			</div>
 		</div>
 
