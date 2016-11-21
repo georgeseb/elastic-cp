@@ -22,7 +22,7 @@
 				<li class="list-group-item"><strong>Node:</strong> {{selectedShard.node}}</li>	
 			</ul>
 			<ul class="list-group">
-				<li class="list-group-item" ng-style="{'background-color': colorScale(selectedShard.index)}">
+				<li class="list-group-item" ng-style="{'background-color': selectedShard.color}">
 					<strong>Index:</strong> {{selectedShard.index}}
 				</li>
 				<li class="list-group-item"><strong>Shard #:</strong> {{selectedShard.shard}}</li>
@@ -31,7 +31,9 @@
 		</div>
 
 		<div class="col-lg-8 col-md-8 col-sm-8">
-			<cluster-display data="routingNodes" selected="selectedShard"></cluster-display>
+			<span ng-repeat="node in routingNodes">
+				<cluster-node data="node" selected="$parent.selectedShard"></cluster-node>
+			</span>		
 		</div>
 	</div>
 

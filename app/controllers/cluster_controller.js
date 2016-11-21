@@ -36,6 +36,7 @@ app.controller("clusterController", ["$scope", "elasticsearchService", "transfor
 
 		$scope.$parent.updateClusterState().then((r) => {
 			$scope.routingNodes = transformationService.routingNodesTransform(r.data);
+			console.log($scope.routingNodes)
 		});
 
 		elasticsearchService.getClusterHealth().then(clusterHealthProcess);
