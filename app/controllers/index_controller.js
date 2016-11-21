@@ -5,18 +5,21 @@ app.controller("indexController", ["$scope", "elasticsearchService", function($s
 	$scope.deleteIndex = function(indexName){
 		elasticsearchService.deleteIndex(indexName).then((resp) => {
 			$scope.parent.updateStats();
+			$scope.parent.updateClusterState();
 		})
 	}
 
 	$scope.openIndex = function(indexName){
 		elasticsearchService.openIndex(indexName).then((resp) => {
-			$scope.parent.updateStats(1000, 0);
+			$scope.parent.updateStats(1000);
+			$scope.parent.updateClusterState();
 		})
 	}
 
 	$scope.closeIndex = function(indexName){
 		elasticsearchService.closeIndex(indexName).then((resp) => {
 			$scope.parent.updateStats();
+			$scope.parent.updateClusterState();
 		})
 	}
 
@@ -27,6 +30,7 @@ app.controller("indexController", ["$scope", "elasticsearchService", function($s
 
 		elasticsearchService.clearCache(indexName, params).then((resp) => {
 			$scope.parent.updateStats();
+			$scope.parent.updateClusterState();
 		})
 	}
 

@@ -68,11 +68,6 @@ app.provider("elasticsearchService", function elasticsearchServiceProvider(){
 			return genericRequest("GET", "/_cluster/health");
 		}
 
-		var getShardStore = function(){
-			var params = {status: "red,yellow,green"};
-			return genericRequest("GET", "/_shard_stores", undefined, params);
-		}
-
 		return {
 			genericRequest: genericRequest,
 			deleteIndex: deleteIndex,
@@ -84,7 +79,6 @@ app.provider("elasticsearchService", function elasticsearchServiceProvider(){
 			sendAnalyzeRequest: sendAnalyzeRequest,
 			getStats: getStats,
 			getClusterState: getClusterState,
-			getShardStore: getShardStore,
 			getClusterHealth: getClusterHealth
 		};
 	}];

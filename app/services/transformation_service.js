@@ -1,68 +1,42 @@
 app.factory("transformationService", ["$http", function($http){
 
-	var shardStoreToArray = function(input){
+	var routingNodesTransform = function(input) {
 
-		var output = [];
+		let result = new Map();
 
-		if (input === undefined || input.indices === undefined) {
-			return output;
+		if (input === undefined || input.nodes === undefined || input.routing_nodes === undefined) {
+			return result;
 		}
 
-		var temp = {};
-		temp["~Unassigned"] = [];
+		//Maps a node name to an array of data.
+		let nodes = input.routing_nodes.nodes;
 
-		for (index in input.indices) {
-			
-			let selectedIndex = input.indices[index];
+		let nodeNames = [];
 
-			for (shard in selectedIndex.shards) {
-
-				let selectedShard = selectedIndex.shards[shard];
-
-				if (selectedShard.stores.length == 0) {
-					let newEntry = {
-						index: index,
-						shard: shard,
-						allocation: "Unassigned",
-						name: "Unassigned",
-						node: "Unassigned"
-					}
-					temp["~Unassigned"].push(newEntry); 
-				}
-
-				for (store in selectedShard.stores) {
-
-					let selectedStore = selectedShard.stores[store];
-
-					let newEntry = {
-								index: index,
-								shard: shard,
-								allocation: selectedStore.allocation
-							};
-
-					for (key in selectedStore) {
-
-							if (selectedStore[key].name !== undefined) {
-								newEntry.name = selectedStore[key].name;
-								newEntry.node = key;
-								if (temp[newEntry.name] === undefined) {
-									temp[newEntry.name] = [];
-								} 
-								temp[newEntry.name].push(newEntry);
-								break;
-							}
-							
-					}
-				}
-			}	
+		for (nodeName in nodes) {
+			//Each array associated with a node should be sorted based on index name.
+			//nodes[nodeName] = _.sortBy(nodes[nodeName], (d) => d.index);
+			nodeNames.push(nodeName);
 		}
 
-		return temp;
+		//Sort the names of the nodes.
+		//nodeNames.sort();
+
+		//Populate the map in sorted order. The map will respect insertion order.
+		for (let i = 0; i < nodeNames.length; i++) {
+			let nodeName = nodeNames[i];
+			nodes[nodeName]["name"] = input.nodes[nodeName].name;
+			result.set(nodeName, nodes[nodeName]);
+		}
+
+		input.routing_nodes.unassigned.name = "Unassigned"
+		result.set("Unassigned", input.routing_nodes.unassigned)
+
+		return result;
 	}
-		
 
 	return {
-		shardStoreToArray: shardStoreToArray
+		routingNodesTransform: routingNodesTransform
 	};
 }]);
 

@@ -1,7 +1,7 @@
 app.controller("clusterController", ["$scope", "elasticsearchService", "transformationService", "$interval", "$window",
 	function($scope, elasticsearchService, transformationService, $interval, $window){
 
-	$scope.shardStoreData = undefined;
+	$scope.routingNodes = undefined;
 	$scope.selectedShard = {};
 
 	$scope.clusterStatusMapping = {
@@ -33,9 +33,11 @@ app.controller("clusterController", ["$scope", "elasticsearchService", "transfor
 	})
 
 	function intervalFunction(){
-		elasticsearchService.getShardStore().then((r) => {
-			$scope.shardStoreData = transformationService.shardStoreToArray(r.data);
+
+		$scope.$parent.updateClusterState().then((r) => {
+			$scope.routingNodes = transformationService.routingNodesTransform(r.data);
 		});
+
 		elasticsearchService.getClusterHealth().then(clusterHealthProcess);
 	}
 

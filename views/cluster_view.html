@@ -23,16 +23,15 @@
 			</ul>
 			<ul class="list-group">
 				<li class="list-group-item" ng-style="{'background-color': colorScale(selectedShard.index)}">
-					<strong>Index:</strong>{{selectedShard.index}}
+					<strong>Index:</strong> {{selectedShard.index}}
 				</li>
 				<li class="list-group-item"><strong>Shard #:</strong> {{selectedShard.shard}}</li>
-				<li class="list-group-item"><strong>Shard Type:</strong> {{selectedShard.allocation | uppercase}}</li>
+				<li class="list-group-item"><strong>Primary Shard:</strong> {{selectedShard.primary + "" | uppercase}}</li>
 			</ul>
 		</div>
 
 		<div class="col-lg-8 col-md-8 col-sm-8">
-			<cluster-display data="shardStoreData" selected="selectedShard"></cluster-display>
-			<div id="clusterGraphic"></div>
+			<cluster-display data="routingNodes" selected="selectedShard"></cluster-display>
 		</div>
 	</div>
 
