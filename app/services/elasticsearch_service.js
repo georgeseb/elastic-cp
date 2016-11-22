@@ -68,7 +68,13 @@ app.provider("elasticsearchService", function elasticsearchServiceProvider(){
 			return genericRequest("GET", "/_cluster/health");
 		}
 
+		var setElasticsearchHost = function(host){
+			elasticsearchHost = host;
+		}
+
 		return {
+			elasticsearchHost: elasticsearchHost,
+			setElasticsearchHost: setElasticsearchHost,
 			genericRequest: genericRequest,
 			deleteIndex: deleteIndex,
 			openIndex: openIndex,

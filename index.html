@@ -41,13 +41,22 @@
 	<body class="padding2" ng-app="elasticMapper" ng-controller="mainController">
 
 		<div class="row">
-			<div class="col-lg-11 col-md-11 col-sm-11">
+			<div class="col-lg-6 col-md-6 col-sm-6">
 				<uib-tabset active="activeTab">
 					<uib-tab index="0" heading="Start"></uib-tab>
 					<uib-tab index="2" heading="Cluster Monitor"></uib-tab>
 					<uib-tab index="3" heading="Index Maintenance"></uib-tab>
 					<uib-tab index="1" heading="Analysis Tools"></uib-tab>
 				</uib-tabset>
+			</div>
+			<div class="col-lg-5 col-md-5 col-sm-5">
+				<div class="input-group">
+					<span class="input-group-addon">http://</span>
+					<input ng-model="host" class="form-control" placeholder="localhost:9200">
+					<span class="input-group-btn">
+						<button ng-click="checkAndSetHost()" class="btn" ng-class="hostValid ? 'btn-success' : 'btn-danger'">Select</button>
+					</span>
+				</div>
 			</div>
 			<div class="col-lg-1 col-md-1 col-sm-1">
 				<button ng-model="refresh" ng-init="refresh=false" ng-click="refresh = !refresh" class="btn btn-primary glyphicon" ng-class="refresh ? 'glyphicon-pause' : 'glyphicon-play'"></button>

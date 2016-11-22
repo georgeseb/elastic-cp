@@ -1,8 +1,10 @@
-app.controller("mainController", ["$scope", "$location", "elasticsearchService", 
-	function($scope, $location, elasticsearchService){
+app.controller("mainController", ["$scope", "$location", "$http", "elasticsearchService", 
+	function($scope, $location, $http, elasticsearchService){
 
 	$scope.stats;
 	$scope.clusterState;
+	$scope.host;
+	$scope.hostValid;
 	
 	$scope.updateStats = function(timeout){
 
@@ -19,6 +21,18 @@ app.controller("mainController", ["$scope", "$location", "elasticsearchService",
 			$scope.clusterState = resp.data;
 			return resp;
 		})
+	}
+
+	$scope.checkAndSetHost = function(){
+		var fullHost = "http://" + $scope.host;
+		if ($scope.host != elasticsearchService.elasticsearchHost) {
+			$http.get(fullHost).then((resp) => {
+				if (resp.status == 200) {
+					$scope.hostValid = true;
+					elasticsearchService.setElasticsearchHost(fullHost);
+				}
+			})
+		}
 	}
 
 	$scope.updateStats();	
