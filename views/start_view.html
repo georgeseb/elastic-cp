@@ -1,11 +1,25 @@
 <br>
 <div class="container-fluid">
 	<div class="jumbotron">
-		<h2>Elasticsearch Control Panel</h2>
-		<p>
-			1. Monitor Cluster <em>(health, active nodes, shard location)</em> <br>
-			2. Manage Indices <em>(explore, open, close, clear cache, delete)</em> <br>
-			3. Analysis Tools
-		</p>
+		<div class="row">
+			<div class="col-lg-6 col-md-6 col-sm-6">
+				<h2>Elasticsearch Control Panel</h2>
+				<p>
+					1. Monitor Cluster <em>(health, active nodes, shard location)</em> <br>
+					2. Manage Indices <em>(explore, open, close, clear cache, delete)</em> <br>
+				</p>
+			</div>
+
+			<div class="col-lg-6 col-md-6 col-sm-6">
+				<h2>Configure</h2>
+				<div class="input-group">
+					<span class="input-group-addon">http://</span>
+					<input ng-model="host" class="form-control" placeholder="localhost:9200">
+					<span class="input-group-btn">
+						<button ng-click="checkAndSetHost()" class="btn" ng-class="hostValid ? 'btn-success' : 'btn-danger'">Select</button>
+					</span>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>

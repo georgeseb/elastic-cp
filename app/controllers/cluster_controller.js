@@ -12,6 +12,7 @@ app.controller("clusterController", ["$scope", "elasticsearchService", "transfor
 
 	var refreshRate = 1000;
 	var refreshIntervalHandle = undefined;
+	
 	intervalFunction();
 
 	$scope.$watch(() => {return $scope.$parent.refresh;}, (newValue, oldValue) => {
@@ -36,7 +37,6 @@ app.controller("clusterController", ["$scope", "elasticsearchService", "transfor
 
 		$scope.$parent.updateClusterState().then((r) => {
 			$scope.routingNodes = transformationService.routingNodesTransform(r.data);
-			console.log($scope.routingNodes)
 		});
 
 		elasticsearchService.getClusterHealth().then(clusterHealthProcess);

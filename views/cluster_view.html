@@ -2,7 +2,7 @@
 
 	<div class="row">
 		
-		<div class="col-lg-4 col-md-4 col-sm-4">
+		<div class="col-lg-2 col-md-2 col-sm-2">
 			<span class="label label-primary">Cluster: {{clusterName}}</span>
 			<span class="label" ng-class="clusterStatusMapping[clusterStatus]">Status: {{clusterStatus}}</span>
 			<br><br>
@@ -17,23 +17,16 @@
 				<li class="list-group-item">Unassigned Shards: {{unassignedShards}}</li>
 				<li class="list-group-item">Delayed Unassigned Shards: {{delayedUnassignedShards}}</li>
 			</ul>
-			<ul class="list-group">
-				<li class="list-group-item"><strong>Node Name:</strong> {{selectedShard.name}}</li>
-				<li class="list-group-item"><strong>Node:</strong> {{selectedShard.node}}</li>	
-			</ul>
-			<ul class="list-group">
-				<li class="list-group-item" ng-style="{'background-color': selectedShard.color}">
-					<strong>Index:</strong> {{selectedShard.index}}
-				</li>
-				<li class="list-group-item"><strong>Shard #:</strong> {{selectedShard.shard}}</li>
-				<li class="list-group-item"><strong>Primary Shard:</strong> {{selectedShard.primary + "" | uppercase}}</li>
-			</ul>
 		</div>
 
 		<div class="col-lg-8 col-md-8 col-sm-8">
 			<span ng-repeat="node in routingNodes">
 				<cluster-node data="node" selected="$parent.selectedShard"></cluster-node>
 			</span>		
+		</div>
+
+		<div class="col-lg-2 col-md-2 col-sm-2">
+			<selected-node data="selectedShard"></selected-node>
 		</div>
 	</div>
 

@@ -4,16 +4,30 @@ app.directive("clusterNode", ["$window", function($window){
 
 	var linkFunction = function(scope, element, attr){
 
-		scope.$watch(() => {return scope.data}, (routingData, oldRoutingData) => {
+		scope.$watch(() => {return scope.data}, (newRoutingData, oldRoutingData) => {
 
 
-			if (routingData === undefined) {
+			if (newRoutingData == undefined) {
 				return;
+			}
+
+			let routingData = newRoutingData.filter((item) => {
+				return (!scope.index || scope.index == item.index)
+						&& (!scope.shard || scope.shard == item.shard)
+						&& (!scope.primary || scope.index == item.index + "")
+			});
+
+			if (routingData.length == 0) {
+				return
 			}
 
 			let svgSquareDim = $window.innerWidth * (1/5);
 
-			let outerRadius = ((4/5) * svgSquareDim) / 2;
+			if (scope.size) {
+				svgSquareDim = svgSquareDim * (scope.size / 10);
+			}
+
+			let outerRadius = ((3/5) * svgSquareDim) / 2;
 			let innerRadius = outerRadius / 1.5;
 
 			let padAngle = outerRadius / 10000;
@@ -61,8 +75,8 @@ app.directive("clusterNode", ["$window", function($window){
 
 			group
 				.append("text")
-				.attr("transform", "translate(0, " + (svgSquareDim - svgSquareDim/15) + ")")
-				.text(routingData.name);
+				.attr("transform", "translate(0, " + (svgSquareDim - svgSquareDim/10) + ")")
+				.text(newRoutingData.name);
 		})
 	}
 
@@ -70,7 +84,11 @@ app.directive("clusterNode", ["$window", function($window){
 		restrict: "E",
 		scope: {
 			data: "=",
-			selected: "="
+			selected: "=",
+			index: "@",
+			shard: "@",
+			primary: "@",
+			size: "@"
 		},
 		link: linkFunction
 	};

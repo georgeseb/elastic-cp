@@ -44,7 +44,16 @@
 					<div ng-show="expand" class="row padding2">
 						<br>
 						<uib-tabset active="indexActiveTab">
-							<uib-tab index="0" heading="Data"></uib-tab>
+							<uib-tab index="0" heading="Data">
+								<div class="row padding2">
+									<span ng-repeat="node in routingNodes">
+										<cluster-node data="node" index="{{key}}" size="5" selected="$parent.selected"></cluster-node>
+									</span>		
+								</div>
+								<div class="row padding2">
+									<selected-node data="selected"></selected-node>
+								</div>
+							</uib-tab>
 							<uib-tab index="1" heading="Mapping"></uib-tab>
 							<uib-tab index="2" heading="Settings"></uib-tab>
 						</uib-tabset>

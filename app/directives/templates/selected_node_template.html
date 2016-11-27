@@ -1,0 +1,11 @@
+<div>
+	<ul class="list-group">
+		<li class="list-group-item"><strong>Node Name:</strong> {{data.name}}</li>
+		<li class="list-group-item"><strong>Node:</strong> {{data.node}}</li>	
+	</ul>
+	<ul class="list-group">
+		<li class="list-group-item" ng-style="{'background-color': data.color}"><strong>Index:</strong> {{data.index}}</li>
+		<li class="list-group-item"><strong>Shard #:</strong> {{data.shard}}</li>
+		<li class="list-group-item"><strong>Primary Shard:</strong> {{data.primary + "" | uppercase}}</li>
+	</ul>
+</div>
